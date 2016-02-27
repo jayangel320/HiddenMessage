@@ -10,13 +10,14 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
 
-        String input1 = "*-_-***";
+        //String input1 = "*-_-***";
+        String input1 = "****_*_*-**_*-**_---___*--_---_*-*_*-**_-**";
 
-        String input2 = "*-*";
+        //String input2 = "*-*";
+        String input2 = "****_*_*-**_*--*";
+
         System.out.println("------");
         Message.HiddenMessage(input1,input2);
-
-
         System.out.println("-----");
 
         long endTime   = System.currentTimeMillis();
