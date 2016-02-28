@@ -1,49 +1,90 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Created by jaybob320 on 2/25/16.
+ * Created by jayangel320 on 2/25/16.
  */
+
+
 public class Message {
 
-    public static String[] inputParse(String input) {
+    public static void runToStart(){
 
-        return input.split("_");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input1 = "";
+        String input2 = "";
+        String input3 = "";
+
+        try {
+            System.out.printf("Enter in the first message: ");
+            input1 = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.printf("Enter in the first hidden message: ");
+            input2 = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.printf("Enter in the first hidden message: ");
+            input3 = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(input1 != "" && input2 != "" && input3 != "") {
+            //timer!!
+            long startTime = System.currentTimeMillis();
+            HiddenMessage2(input1, input2, input3);
+            long endTime   = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            System.out.printf(" %d seconds.%n", totalTime/1000);
+            System.out.println("--------");
+        }
+
 
     }
 
-
     public static void HiddenMessage(String input1, String input2) {
 
+        //converts message into char array
         char[] parsedInput1 = input1.toCharArray();
 
+        //converts hidden message into char array
         char[] parsedInput2 = input2.toCharArray();
 
+        //finds number of elements in each solution
         int rows = parsedInput2.length;
 
+        //finds the number of solutions there will be
         int columns = numOfDeletionPaths(parsedInput1, parsedInput2, 0, 0, 0);
 
-        System.out.printf("%d %n", columns);
-
+        //creates blank array of solutions
         int[][] solutions = blankArray(rows, columns);
 
+        //fills in solution array
         DeletionPaths(parsedInput1, parsedInput2, 0, 0, solutions);
 
-        System.out.println("--------");
-
+        //fills in blank elements in solution array
         fixArray(solutions, rows);
 
-        System.out.printf("%d %n", testSolutions(parsedInput1, solutions, rows, columns));
+        //prints out total number of unique solutions
+        System.out.printf("There are %d unique solutions %n", testSolutions(parsedInput1, solutions, rows, columns));
     }
 
 
     //This method creates and returns an array filled with -1's
     //that will contain the indices of the input array that can be removed
-    public static int[][] blankArray(int rows, int columns) {
+    private static int[][] blankArray(int rows, int columns) {
 
         //creates blank array
         int[][] solutions = new int[rows][columns];
@@ -54,12 +95,12 @@ public class Message {
                 solutions[j][i] = -1;
             }
         }
-try {
-    //This element in the array will keep track of which row to add values to
-    solutions[1][0] = 1;
-}catch(ArrayIndexOutOfBoundsException aiob){
-    System.out.printf("%d %d",rows,columns);
-}
+        try {
+            //This element in the array will keep track of which row to add values to
+            solutions[1][0] = 1;
+        }catch(ArrayIndexOutOfBoundsException aiob){
+            System.out.printf("%d %d",rows,columns);
+        }
         //This element will contain the max amount of columns that can be filled in
         solutions[0][0] = columns - 1;
 
@@ -69,7 +110,7 @@ try {
     }
 
     //this will count the number of deletion paths but will not create or change any char[]
-    public static int numOfDeletionPaths(char[] array1, char[] array2, int array1Start,
+    private static int numOfDeletionPaths(char[] array1, char[] array2, int array1Start,
                                          int array2Start, int solution) {
 
         //makes sure we comparing valid indexes for array1 and array2
@@ -103,7 +144,7 @@ try {
 
     //this will fill the solutions array with indices of the array1 that can be removed
     //each column will be a different solution
-    public static void DeletionPaths(char[] array1, char[] array2, int array1Start, int array2Start, int[][] solutions) {
+    private static void DeletionPaths(char[] array1, char[] array2, int array1Start, int array2Start, int[][] solutions) {
         //makes sure we comparing valid indexes for array1 and array2
         if (array1Start < array1.length && array2Start < array2.length) {
             //Cycle through array1
@@ -133,7 +174,7 @@ try {
     //The way the solutions array is filled is the row that is first filled in in a column is the first sequential
     // row that differs from the previous column. This method copies and pastes the repeated values from previous column
     // into the empty values in the current column which are marked by -1's
-    public static void fixArray(int[][] array, int rows) {
+    private static void fixArray(int[][] array, int rows) {
         //provides the other dimension to the array
         int columns = array[0].length;
 
@@ -149,7 +190,7 @@ try {
 
     //Takes the original input message and single solution of indices that can be removed and
     //removes them. It returns a shorten input in the form of a string
-    public static String deleteWords(char[] input, int[] indexList) {
+    private static String deleteWords(char[] input, int[] indexList) {
 
         //Length of the single solution array
         int length = indexList.length;
@@ -188,7 +229,7 @@ try {
 
     //Cycles through the solutions column by column, deletes the corresponding indices, adds them to a Set
     //Then returns the Sets size
-    public static int testSolutions(char[] input, int[][] solutions, int rows, int limit) {
+    private static int testSolutions(char[] input, int[][] solutions, int rows, int limit) {
         //Creates the set
         Set<String> uniqueSol = new HashSet<>();
         //Cycles through the columns
@@ -208,7 +249,7 @@ try {
     }
 
     //Converts the char array into a String into the format that is needed
-    public static String charToString(char[] input) {
+    private static String charToString(char[] input) {
 
         //creates blank String
         String tmpLetter = "";
@@ -224,7 +265,7 @@ try {
 
     //Cycles through the solutions column by column, deletes the corresponding indices, adds them to a Set
     //Then returns the Set itself
-    public static Set<String> testSolutions2(char[] input, int[][] solutions, int rows, int limit) {
+    private static Set<String> testSolutions2(char[] input, int[][] solutions, int rows, int limit) {
         //Creates the set
         Set<String> uniqueSol = new HashSet<>();
         //Cycles through the columns
@@ -243,53 +284,70 @@ try {
         return uniqueSol;
     }
 
-    public static void HiddenMessage2(String input1, String input2, String input3) {
+    private static void HiddenMessage2(String input1, String input2, String input3) {
 
+        //turn input1 into char array
         char[] parsedInput1 = input1.toCharArray();
 
+        //turn input2 into char array
         char[] parsedInput2 = input2.toCharArray();
 
+        //find amount of elements in each solution
         int rows = parsedInput2.length;
 
+        //find the amount of solutions
         int columns = numOfDeletionPaths(parsedInput1, parsedInput2, 0, 0, 0);
 
-        //System.out.printf("%d %n",columns);
-
+        //create blank solution array
         int[][] solutions = blankArray(rows, columns);
 
+        //fill in solution array using first hidden message
         DeletionPaths(parsedInput1, parsedInput2, 0, 0, solutions);
 
+        //Make the output pretty
         System.out.println("--------");
 
+        //fills in blank elements in solution array
         fixArray(solutions, rows);
 
+        //finds the unique solutions
         Set<String> inBetween = testSolutions2(parsedInput1, solutions, rows, columns);
 
-        //---------------------------------------------
+        //--------------------2nd Hidden Message-------------------------
 
+        //converts second hidden message to char array
         char[] parsedInput3 = input3.toCharArray();
 
+        //finds length of new solutions
         rows = parsedInput3.length;
 
+        //creates the set that will contain all the unique final solutions
         Set<String> finalSolutions = new HashSet<>();
 
+        //loops through solutions from first hidden message and repeats previous steps using second hidden message
+        // on each
         for (String sSolution : inBetween) {
 
+            //find the amount of solutions
             columns = numOfDeletionPaths(sSolution.toCharArray(), parsedInput3, 0, 0, 0);
 
+            //makes sure there were solutions for this String
             if(columns > 0) {
+                //creates blank array of solutions
                 solutions = blankArray(rows, columns);
 
+                //fills in blank array with solutions
                 DeletionPaths(sSolution.toCharArray(), parsedInput3, 0, 0, solutions);
 
+                //fills in blank elements in solution array
                 fixArray(solutions, rows);
 
+                //removes the second message from each String and adds it to the final solution array
                 finalSolutions.addAll(testSolutions2(sSolution.toCharArray(), solutions, rows, columns));
             }
         }
-
-        System.out.printf("%d %n", finalSolutions.size());
-
+        //prints out total number of unique solutions
+        System.out.printf("There are %d unique remaining sequences calculated in", finalSolutions.size());
 
     }
 }

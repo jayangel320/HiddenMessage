@@ -1,39 +1,35 @@
 package com.company;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+//When this runs only the Step two program runs
+//if you want Step One program to run you can uncomment the code belode runToStart
 public class Main {
 
     public static void main(String[] args) {
-        // write your code here
 
-        long startTime = System.currentTimeMillis();
+        //Given: The Star Wars Saga
+        //  -_****_*___***_-_*-_*-*___*--_*-_*-*_***___***_*-_--*_*-
 
-        //String input1 = "*-_-***";
-        //String input1 = "****_*_*-**_*-**_---___*--_---_*-*_*-**_-**";
-        String input1 = "-_****_*___***_-_*-_*-*___*--_*-_*-*_***___***_*-_--*_*-";
+        //Remove: Yoda
+        //  -*--_---_-**_*-
 
-        //String input2 = "*-*";
-        //String input2 = "****_*_*-**_*--*";
-        String input2 = "-*--_---_-**_*-";
+        //And Remove: Leia
+        //  *-**_*_**_*-
 
-        //String input3 = "*-*";
-        String input3 = "*-**_*_**_*-";
-
-        System.out.println("------");
-        //Message.HiddenMessage(input1,input2);
-        Message.HiddenMessage2(input1,input2,input3);
-        System.out.println("-----");
-
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
+        Message.runToStart();
 
 
-        System.out.println(totalTime);
-
-
-
+        /*
+        String input1 = "****_*_*-**_*-**_---___*--_---_*-*_*-**_-**";
+        String input2 = "****_*_*-**_*--*";
+        Message.HiddenMessage(input1,input2);
+        */
 
     }
 }
